@@ -1,0 +1,43 @@
+﻿@model gotcha.Models.Draft
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Draft</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+           version
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.version)
+        </dd>
+
+        <dt>
+           id of machine
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Machine.id_mach)
+        </dd>
+
+        <dt>
+            id of part
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Part.id_part)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_row }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище GuildsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Draft">
+          <Key>
+            <PropertyRef Name="id_row" />
+          </Key>
+          <Property Name="id_row" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_id_part" Type="int" Nullable="false" />
+          <Property Name="fk_id_mach" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" />
+        </EntityType>
+        <EntityType Name="Guild">
+          <Key>
+            <PropertyRef Name="id_guild" />
+          </Key>
+          <Property Name="id_guild" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameGuild" Type="varchar" MaxLength="30" />
+          <Property Name="firmGuild" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="id_mach" />
+          </Key>
+          <Property Name="id_mach" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_id_guild" Type="int" Nullable="false" />
+          <Property Name="firmMach" Type="varchar" MaxLength="40" />
+          <Property Name="timeProcessing" Type="float" />
+        </EntityType>
+        <EntityType Name="Modification">
+          <Key>
+            <PropertyRef Name="id_mod" />
+          </Key>
+          <Property Name="id_mod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameMod" Type="varchar" MaxLength="30" />
+          <Property Name="LabourInput" Type="float" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="id_part" />
+          </Key>
+          <Property Name="id_part" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="namePart" Type="varchar" MaxLength="30" />
+          <Property Name="firmPart" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Processing">
+          <Key>
+            <PropertyRef Name="id_row" />
+          </Key>
+          <Property Name="id_row" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_id_part" Type="int" Nullable="false" />
+          <Property Name="fk_id_mod" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Draft__fk_id_mac__31B762FC">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+          <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="id_mach" />
+            </Principal>
+            <Dependent Role="Draft">
+              <PropertyRef Name="fk_id_mach" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Draft__fk_id_par__30C33EC3">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Draft">
+              <PropertyRef Name="fk_id_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machine__fk_id_g__29572725">
+          <End Role="Guild" Type="Self.Guild" Multiplicity="1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guild">
+              <PropertyRef Name="id_guild" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="fk_id_guild" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processin__fk_id__29221CFB">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Processing">
+              <PropertyRef Name="fk_id_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processin__fk_id__2A164134">
+          <End Role="Modification" Type="Self.Modification" Multiplicity="1" />
+          <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modification">
+              <PropertyRef Name="id_mod" />
+            </Principal>
+            <Dependent Role="Processing">
+              <PropertyRef Name="fk_id_mod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AutoDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AutoGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AutoMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AutoModification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AutoPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AutoProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rows" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_g" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_m" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_m" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeletePart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_p" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Everything" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="FirstDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="InsertDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_m" Type="int" Mode="In" />
+          <Parameter Name="id_p" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="firm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Guild" Type="int" Mode="In" />
+          <Parameter Name="Firm" Type="varchar" Mode="In" />
+          <Parameter Name="Time" Type="float" Mode="In" />
+        </Function>
+        <Function Name="InsertMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="labour" Type="float" Mode="In" />
+        </Function>
+        <Function Name="InsertPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="firm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_p" Type="int" Mode="In" />
+          <Parameter Name="id_m" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Request2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_g" Type="int" Mode="In" />
+          <Parameter Name="letter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SecondDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_g" Type="int" Mode="In" />
+          <Parameter Name="letter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ShowDrafts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ShowGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ShowMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ShowMods" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ShowPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ShowProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="id_p" Type="int" Mode="In" />
+          <Parameter Name="id_m" Type="int" Mode="In" />
+          <Parameter Name="v" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="firm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="time" Type="float" Mode="In" />
+          <Parameter Name="firm" Type="varchar" Mode="In" />
+          <Parameter Name="id_g" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="labour" Type="float" Mode="In" />
+        </Function>
+        <Function Name="UpdatePart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="firm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="id_p" Type="int" Mode="In" />
+          <Parameter Name="id_m" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище GuildsModelContainer">
+          <EntitySet Name="Draft" EntityType="Self.Draft" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guild" EntityType="Self.Guild" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modification" EntityType="Self.Modification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Part" EntityType="Self.Part" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Processing" EntityType="Self.Processing" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Draft__fk_id_mac__31B762FC" Association="Self.FK__Draft__fk_id_mac__31B762FC">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="Draft" EntitySet="Draft" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Draft__fk_id_par__30C33EC3" Association="Self.FK__Draft__fk_id_par__30C33EC3">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="Draft" EntitySet="Draft" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machine__fk_id_g__29572725" Association="Self.FK__Machine__fk_id_g__29572725">
+            <End Role="Guild" EntitySet="Guild" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processin__fk_id__29221CFB" Association="Self.FK__Processin__fk_id__29221CFB">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="Processing" EntitySet="Processing" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processin__fk_id__2A164134" Association="Self.FK__Processin__fk_id__2A164134">
+            <End Role="Modification" EntitySet="Modification" />
+            <End Role="Processing" EntitySet="Processing" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GuildsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Draft">
+          <Key>
+            <PropertyRef Name="id_row" />
+          </Key>
+          <Property Name="id_row" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_id_part" Type="Int32" Nullable="false" />
+          <Property Name="fk_id_mach" Type="Int32" Nullable="false" />
+          <Property Name="version" Type="Int32" />
+          <NavigationProperty Name="Machine" Relationship="Self.FK__Draft__fk_id_mac__31B762FC" FromRole="Draft" ToRole="Machine" />
+          <NavigationProperty Name="Part" Relationship="Self.FK__Draft__fk_id_par__30C33EC3" FromRole="Draft" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="Guild">
+          <Key>
+            <PropertyRef Name="id_guild" />
+          </Key>
+          <Property Name="id_guild" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameGuild" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="firmGuild" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Machine" Relationship="Self.FK__Machine__fk_id_g__29572725" FromRole="Guild" ToRole="Machine" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="id_mach" />
+          </Key>
+          <Property Name="id_mach" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_id_guild" Type="Int32" Nullable="false" />
+          <Property Name="firmMach" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="timeProcessing" Type="Double" />
+          <NavigationProperty Name="Draft" Relationship="Self.FK__Draft__fk_id_mac__31B762FC" FromRole="Machine" ToRole="Draft" />
+          <NavigationProperty Name="Guild" Relationship="Self.FK__Machine__fk_id_g__29572725" FromRole="Machine" ToRole="Guild" />
+        </EntityType>
+        <EntityType Name="Modification">
+          <Key>
+            <PropertyRef Name="id_mod" />
+          </Key>
+          <Property Name="id_mod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameMod" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LabourInput" Type="Double" />
+          <NavigationProperty Name="Processing" Relationship="Self.FK__Processin__fk_id__2A164134" FromRole="Modification" ToRole="Processing" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="id_part" />
+          </Key>
+          <Property Name="id_part" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="namePart" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="firmPart" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Draft" Relationship="Self.FK__Draft__fk_id_par__30C33EC3" FromRole="Part" ToRole="Draft" />
+          <NavigationProperty Name="Processing" Relationship="Self.FK__Processin__fk_id__29221CFB" FromRole="Part" ToRole="Processing" />
+        </EntityType>
+        <EntityType Name="Processing">
+          <Key>
+            <PropertyRef Name="id_row" />
+          </Key>
+          <Property Name="id_row" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_id_part" Type="Int32" Nullable="false" />
+          <Property Name="fk_id_mod" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modification" Relationship="Self.FK__Processin__fk_id__2A164134" FromRole="Processing" ToRole="Modification" />
+          <NavigationProperty Name="Part" Relationship="Self.FK__Processin__fk_id__29221CFB" FromRole="Processing" ToRole="Part" />
+        </EntityType>
+        <Association Name="FK__Draft__fk_id_mac__31B762FC">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+          <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="id_mach" />
+            </Principal>
+            <Dependent Role="Draft">
+              <PropertyRef Name="fk_id_mach" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Draft__fk_id_par__30C33EC3">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Draft">
+              <PropertyRef Name="fk_id_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machine__fk_id_g__29572725">
+          <End Role="Guild" Type="Self.Guild" Multiplicity="1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guild">
+              <PropertyRef Name="id_guild" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="fk_id_guild" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processin__fk_id__2A164134">
+          <End Role="Modification" Type="Self.Modification" Multiplicity="1" />
+          <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modification">
+              <PropertyRef Name="id_mod" />
+            </Principal>
+            <Dependent Role="Processing">
+              <PropertyRef Name="fk_id_mod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processin__fk_id__29221CFB">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="id_part" />
+            </Principal>
+            <Dependent Role="Processing">
+              <PropertyRef Name="fk_id_part" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GuildsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Draft" EntityType="Self.Draft" />
+          <EntitySet Name="Guild" EntityType="Self.Guild" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" />
+          <EntitySet Name="Modification" EntityType="Self.Modification" />
+          <EntitySet Name="Part" EntityType="Self.Part" />
+          <EntitySet Name="Processing" EntityType="Self.Processing" />
+          <AssociationSet Name="FK__Draft__fk_id_mac__31B762FC" Association="Self.FK__Draft__fk_id_mac__31B762FC">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="Draft" EntitySet="Draft" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Draft__fk_id_par__30C33EC3" Association="Self.FK__Draft__fk_id_par__30C33EC3">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="Draft" EntitySet="Draft" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machine__fk_id_g__29572725" Association="Self.FK__Machine__fk_id_g__29572725">
+            <End Role="Guild" EntitySet="Guild" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processin__fk_id__2A164134" Association="Self.FK__Processin__fk_id__2A164134">
+            <End Role="Modification" EntitySet="Modification" />
+            <End Role="Processing" EntitySet="Processing" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processin__fk_id__29221CFB" Association="Self.FK__Processin__fk_id__29221CFB">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="Processing" EntitySet="Processing" />
+          </AssociationSet>
+          <FunctionImport Name="AutoDraft">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AutoGuild">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AutoMachine">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AutoModification">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AutoPart">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AutoProcessing">
+          <Parameter Name="rows" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteDraft">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteGuild">
+          <Parameter Name="id_g" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMachine">
+          <Parameter Name="id_m" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMod">
+          <Parameter Name="id_m" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeletePart">
+          <Parameter Name="id_p" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteProcessing">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Everything" ReturnType="Collection(GuildsModel.Everything_Result)" />
+          <FunctionImport Name="FirstDoc" ReturnType="Collection(GuildsModel.FirstDoc_Result)" />
+          <FunctionImport Name="InsertDraft">
+            <Parameter Name="id_m" Mode="In" Type="Int32" />
+            <Parameter Name="id_p" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertGuild">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="firm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertMachine">
+            <Parameter Name="Guild" Mode="In" Type="Int32" />
+            <Parameter Name="Firm" Mode="In" Type="String" />
+            <Parameter Name="Time" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="InsertMod">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="labour" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="InsertPart">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="firm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertProcessing">
+            <Parameter Name="id_p" Mode="In" Type="Int32" />
+            <Parameter Name="id_m" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Request2" ReturnType="Collection(String)">
+            <Parameter Name="id_g" Mode="In" Type="Int32" />
+            <Parameter Name="letter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SecondDoc" ReturnType="Collection(GuildsModel.SecondDoc_Result)">
+            <Parameter Name="id_g" Mode="In" Type="Int32" />
+            <Parameter Name="letter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ShowDrafts" ReturnType="Collection(GuildsModel.ShowDrafts_Result)" />
+          <FunctionImport Name="ShowGuild" ReturnType="Collection(GuildsModel.ShowGuild_Result)" />
+          <FunctionImport Name="ShowMachine" ReturnType="Collection(GuildsModel.ShowMachine_Result)" />
+          <FunctionImport Name="ShowMods" ReturnType="Collection(GuildsModel.ShowMods_Result)" />
+          <FunctionImport Name="ShowPart" ReturnType="Collection(GuildsModel.ShowPart_Result)" />
+          <FunctionImport Name="ShowProcessing" ReturnType="Collection(GuildsModel.ShowProcessing_Result)" />
+          <FunctionImport Name="UpdateDraft">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id_p" Mode="In" Type="Int32" />
+            <Parameter Name="id_m" Mode="In" Type="Int32" />
+            <Parameter Name="v" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateGuild">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="firm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateMachine">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="time" Mode="In" Type="Double" />
+            <Parameter Name="firm" Mode="In" Type="String" />
+            <Parameter Name="id_g" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateMod">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="labour" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePart">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="firm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateProcessing">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="id_p" Mode="In" Type="Int32" />
+            <Parameter Name="id_m" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Everything_Result">
+          <Property Type="Int32" Name="id_mod" Nullable="false" />
+          <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="fk_id_mach" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_guild" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FirstDoc_Result">
+          <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="LabourInput" Nullable="true" />
+          <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="SecondDoc_Result">
+          <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="timeProcessing" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ShowDrafts_Result">
+          <Property Type="Int32" Name="id_row" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_part" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_mach" Nullable="false" />
+          <Property Type="Int32" Name="version" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ShowGuild_Result">
+          <Property Type="Int32" Name="id_guild" Nullable="false" />
+          <Property Type="String" Name="nameGuild" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="firmGuild" Nullable="true" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="ShowMachine_Result">
+          <Property Type="Int32" Name="id_mach" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_guild" Nullable="false" />
+          <Property Type="String" Name="firmMach" Nullable="true" MaxLength="40" />
+          <Property Type="Double" Name="timeProcessing" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ShowMods_Result">
+          <Property Type="Int32" Name="id_mod" Nullable="false" />
+          <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+          <Property Type="Double" Name="LabourInput" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ShowPart_Result">
+          <Property Type="Int32" Name="id_part" Nullable="false" />
+          <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="firmPart" Nullable="true" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="ShowProcessing_Result">
+          <Property Type="Int32" Name="id_row" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_part" Nullable="false" />
+          <Property Type="Int32" Name="fk_id_mod" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GuildsModelContainer" CdmEntityContainer="GuildsEntities">
+          <EntitySetMapping Name="Draft">
+            <EntityTypeMapping TypeName="GuildsModel.Draft">
+              <MappingFragment StoreEntitySet="Draft">
+                <ScalarProperty Name="id_row" ColumnName="id_row" />
+                <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+                <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+                <ScalarProperty Name="version" ColumnName="version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Draft">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertDraft" >
+                  <ScalarProperty Name="fk_id_part" ParameterName="id_p" />
+                  <ScalarProperty Name="fk_id_mach" ParameterName="id_m" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateDraft" >
+                  <ScalarProperty Name="version" ParameterName="v" Version="Current" />
+                  <ScalarProperty Name="fk_id_mach" ParameterName="id_m" Version="Current" />
+                  <ScalarProperty Name="fk_id_part" ParameterName="id_p" Version="Current" />
+                  <ScalarProperty Name="id_row" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteDraft" >
+                  <ScalarProperty Name="id_row" ParameterName="id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guild">
+            <EntityTypeMapping TypeName="GuildsModel.Guild">
+              <MappingFragment StoreEntitySet="Guild">
+                <ScalarProperty Name="id_guild" ColumnName="id_guild" />
+                <ScalarProperty Name="nameGuild" ColumnName="nameGuild" />
+                <ScalarProperty Name="firmGuild" ColumnName="firmGuild" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Guild">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertGuild" >
+                  <ScalarProperty Name="firmGuild" ParameterName="firm" />
+                  <ScalarProperty Name="nameGuild" ParameterName="name" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateGuild" >
+                  <ScalarProperty Name="firmGuild" ParameterName="firm" Version="Current" />
+                  <ScalarProperty Name="nameGuild" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="id_guild" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteGuild" >
+                  <ScalarProperty Name="id_guild" ParameterName="id_g" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machine">
+            <EntityTypeMapping TypeName="GuildsModel.Machine">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="id_mach" ColumnName="id_mach" />
+                <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+                <ScalarProperty Name="firmMach" ColumnName="firmMach" />
+                <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Machine">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertMachine" >
+                  <ScalarProperty Name="timeProcessing" ParameterName="Time" />
+                  <ScalarProperty Name="firmMach" ParameterName="Firm" />
+                  <ScalarProperty Name="fk_id_guild" ParameterName="Guild" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateMachine" >
+                  <ScalarProperty Name="fk_id_guild" ParameterName="id_g" Version="Current" />
+                  <ScalarProperty Name="firmMach" ParameterName="firm" Version="Current" />
+                  <ScalarProperty Name="timeProcessing" ParameterName="time" Version="Current" />
+                  <ScalarProperty Name="id_mach" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteMachine" >
+                  <ScalarProperty Name="id_mach" ParameterName="id_m" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modification">
+            <EntityTypeMapping TypeName="GuildsModel.Modification">
+              <MappingFragment StoreEntitySet="Modification">
+                <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+                <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+                <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Modification">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertMod" >
+                  <ScalarProperty Name="LabourInput" ParameterName="labour" />
+                  <ScalarProperty Name="nameMod" ParameterName="name" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateMod" >
+                  <ScalarProperty Name="LabourInput" ParameterName="labour" Version="Current" />
+                  <ScalarProperty Name="nameMod" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="id_mod" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteMod" >
+                  <ScalarProperty Name="id_mod" ParameterName="id_m" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Part">
+            <EntityTypeMapping TypeName="GuildsModel.Part">
+              <MappingFragment StoreEntitySet="Part">
+                <ScalarProperty Name="id_part" ColumnName="id_part" />
+                <ScalarProperty Name="namePart" ColumnName="namePart" />
+                <ScalarProperty Name="firmPart" ColumnName="firmPart" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Part">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertPart" >
+                  <ScalarProperty Name="firmPart" ParameterName="firm" />
+                  <ScalarProperty Name="namePart" ParameterName="name" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdatePart" >
+                  <ScalarProperty Name="firmPart" ParameterName="firm" Version="Current" />
+                  <ScalarProperty Name="namePart" ParameterName="name" Version="Current" />
+                  <ScalarProperty Name="id_part" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeletePart" >
+                  <ScalarProperty Name="id_part" ParameterName="id_p" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Processing">
+            <EntityTypeMapping TypeName="GuildsModel.Processing">
+              <MappingFragment StoreEntitySet="Processing">
+                <ScalarProperty Name="id_row" ColumnName="id_row" />
+                <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+                <ScalarProperty Name="fk_id_mod" ColumnName="fk_id_mod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="GuildsModel.Processing">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Хранилище GuildsModel.InsertProcessing" >
+                  <ScalarProperty Name="fk_id_mod" ParameterName="id_m" />
+                  <ScalarProperty Name="fk_id_part" ParameterName="id_p" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateProcessing" >
+                  <ScalarProperty Name="fk_id_mod" ParameterName="id_m" Version="Current" />
+                  <ScalarProperty Name="fk_id_part" ParameterName="id_p" Version="Current" />
+                  <ScalarProperty Name="id_row" ParameterName="id" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteProcessing" >
+                  <ScalarProperty Name="id_row" ParameterName="id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AutoDraft" FunctionName="Хранилище GuildsModel.AutoDraft" />
+          <FunctionImportMapping FunctionImportName="AutoGuild" FunctionName="Хранилище GuildsModel.AutoGuild" />
+          <FunctionImportMapping FunctionImportName="AutoMachine" FunctionName="Хранилище GuildsModel.AutoMachine" />
+          <FunctionImportMapping FunctionImportName="AutoModification" FunctionName="Хранилище GuildsModel.AutoModification" />
+          <FunctionImportMapping FunctionImportName="AutoPart" FunctionName="Хранилище GuildsModel.AutoPart" />
+          <FunctionImportMapping FunctionImportName="AutoProcessing" FunctionName="Хранилище GuildsModel.AutoProcessing" />
+          <FunctionImportMapping FunctionImportName="DeleteDraft" FunctionName="Хранилище GuildsModel.DeleteDraft" />
+          <FunctionImportMapping FunctionImportName="DeleteGuild" FunctionName="Хранилище GuildsModel.DeleteGuild" />
+          <FunctionImportMapping FunctionImportName="DeleteMachine" FunctionName="Хранилище GuildsModel.DeleteMachine" />
+          <FunctionImportMapping FunctionImportName="DeleteMod" FunctionName="Хранилище GuildsModel.DeleteMod" />
+          <FunctionImportMapping FunctionImportName="DeletePart" FunctionName="Хранилище GuildsModel.DeletePart" />
+          <FunctionImportMapping FunctionImportName="DeleteProcessing" FunctionName="Хранилище GuildsModel.DeleteProcessing" />
+          <FunctionImportMapping FunctionImportName="Everything" FunctionName="Хранилище GuildsModel.Everything">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.Everything_Result">
+                <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+                <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+                <ScalarProperty Name="namePart" ColumnName="namePart" />
+                <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+                <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FirstDoc" FunctionName="Хранилище GuildsModel.FirstDoc">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.FirstDoc_Result">
+                <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+                <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+                <ScalarProperty Name="namePart" ColumnName="namePart" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertDraft" FunctionName="Хранилище GuildsModel.InsertDraft" />
+          <FunctionImportMapping FunctionImportName="InsertGuild" FunctionName="Хранилище GuildsModel.InsertGuild" />
+          <FunctionImportMapping FunctionImportName="InsertMachine" FunctionName="Хранилище GuildsModel.InsertMachine" />
+          <FunctionImportMapping FunctionImportName="InsertMod" FunctionName="Хранилище GuildsModel.InsertMod" />
+          <FunctionImportMapping FunctionImportName="InsertPart" FunctionName="Хранилище GuildsModel.InsertPart" />
+          <FunctionImportMapping FunctionImportName="InsertProcessing" FunctionName="Хранилище GuildsModel.InsertProcessing" />
+          <FunctionImportMapping FunctionImportName="Request2" FunctionName="Хранилище GuildsModel.Request2" />
+          <FunctionImportMapping FunctionImportName="SecondDoc" FunctionName="Хранилище GuildsModel.SecondDoc">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.SecondDoc_Result">
+                <ScalarProperty Name="namePart" ColumnName="namePart" />
+                <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowDrafts" FunctionName="Хранилище GuildsModel.ShowDrafts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowDrafts_Result">
+                <ScalarProperty Name="id_row" ColumnName="id_row" />
+                <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+                <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+                <ScalarProperty Name="version" ColumnName="version" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowGuild" FunctionName="Хранилище GuildsModel.ShowGuild">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowGuild_Result">
+                <ScalarProperty Name="id_guild" ColumnName="id_guild" />
+                <ScalarProperty Name="nameGuild" ColumnName="nameGuild" />
+                <ScalarProperty Name="firmGuild" ColumnName="firmGuild" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowMachine" FunctionName="Хранилище GuildsModel.ShowMachine">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowMachine_Result">
+                <ScalarProperty Name="id_mach" ColumnName="id_mach" />
+                <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+                <ScalarProperty Name="firmMach" ColumnName="firmMach" />
+                <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowMods" FunctionName="Хранилище GuildsModel.ShowMods">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowMods_Result">
+                <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+                <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+                <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowPart" FunctionName="Хранилище GuildsModel.ShowPart">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowPart_Result">
+                <ScalarProperty Name="id_part" ColumnName="id_part" />
+                <ScalarProperty Name="namePart" ColumnName="namePart" />
+                <ScalarProperty Name="firmPart" ColumnName="firmPart" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ShowProcessing" FunctionName="Хранилище GuildsModel.ShowProcessing">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GuildsModel.ShowProcessing_Result">
+                <ScalarProperty Name="id_row" ColumnName="id_row" />
+                <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+                <ScalarProperty Name="fk_id_mod" ColumnName="fk_id_mod" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateDraft" FunctionName="Хранилище GuildsModel.UpdateDraft" />
+          <FunctionImportMapping FunctionImportName="UpdateGuild" FunctionName="Хранилище GuildsModel.UpdateGuild" />
+          <FunctionImportMapping FunctionImportName="UpdateMachine" FunctionName="Хранилище GuildsModel.UpdateMachine" />
+          <FunctionImportMapping FunctionImportName="UpdateMod" FunctionName="Хранилище GuildsModel.UpdateMod" />
+          <FunctionImportMapping FunctionImportName="UpdatePart" FunctionName="Хранилище GuildsModel.UpdatePart" />
+          <FunctionImportMapping FunctionImportName="UpdateProcessing" FunctionName="Хранилище GuildsModel.UpdateProcessing" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

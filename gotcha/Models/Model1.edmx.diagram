@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6d512dcdbc5a4a7e9cddede19d12a237" Name="Diagram1">
+        <EntityTypeShape EntityType="GuildsModel.Draft" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuildsModel.Guild" Width="1.5" PointX="5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuildsModel.Machine" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuildsModel.Modification" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuildsModel.Part" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuildsModel.Processing" Width="1.5" PointX="2.875" PointY="2.25" IsExpanded="true" />
+        <AssociationConnector Association="GuildsModel.FK__Draft__fk_id_mac__31B762FC" ManuallyRouted="false" />
+        <AssociationConnector Association="GuildsModel.FK__Draft__fk_id_par__30C33EC3" ManuallyRouted="false" />
+        <AssociationConnector Association="GuildsModel.FK__Machine__fk_id_g__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="GuildsModel.FK__Processin__fk_id__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="GuildsModel.FK__Processin__fk_id__29221CFB" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

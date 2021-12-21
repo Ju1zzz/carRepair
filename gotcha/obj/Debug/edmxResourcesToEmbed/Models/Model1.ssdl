@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище GuildsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Draft">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fk_id_part" Type="int" Nullable="false" />
+    <Property Name="fk_id_mach" Type="int" Nullable="false" />
+    <Property Name="version" Type="int" />
+  </EntityType>
+  <EntityType Name="Guild">
+    <Key>
+      <PropertyRef Name="id_guild" />
+    </Key>
+    <Property Name="id_guild" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameGuild" Type="varchar" MaxLength="30" />
+    <Property Name="firmGuild" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="id_mach" />
+    </Key>
+    <Property Name="id_mach" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fk_id_guild" Type="int" Nullable="false" />
+    <Property Name="firmMach" Type="varchar" MaxLength="40" />
+    <Property Name="timeProcessing" Type="float" />
+  </EntityType>
+  <EntityType Name="Modification">
+    <Key>
+      <PropertyRef Name="id_mod" />
+    </Key>
+    <Property Name="id_mod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameMod" Type="varchar" MaxLength="30" />
+    <Property Name="LabourInput" Type="float" />
+  </EntityType>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="id_part" />
+    </Key>
+    <Property Name="id_part" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="namePart" Type="varchar" MaxLength="30" />
+    <Property Name="firmPart" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="Processing">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fk_id_part" Type="int" Nullable="false" />
+    <Property Name="fk_id_mod" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Draft__fk_id_mac__31B762FC">
+    <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+    <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machine">
+        <PropertyRef Name="id_mach" />
+      </Principal>
+      <Dependent Role="Draft">
+        <PropertyRef Name="fk_id_mach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Draft__fk_id_par__30C33EC3">
+    <End Role="Part" Type="Self.Part" Multiplicity="1" />
+    <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="id_part" />
+      </Principal>
+      <Dependent Role="Draft">
+        <PropertyRef Name="fk_id_part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Machine__fk_id_g__29572725">
+    <End Role="Guild" Type="Self.Guild" Multiplicity="1" />
+    <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guild">
+        <PropertyRef Name="id_guild" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="fk_id_guild" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Processin__fk_id__29221CFB">
+    <End Role="Part" Type="Self.Part" Multiplicity="1" />
+    <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="id_part" />
+      </Principal>
+      <Dependent Role="Processing">
+        <PropertyRef Name="fk_id_part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Processin__fk_id__2A164134">
+    <End Role="Modification" Type="Self.Modification" Multiplicity="1" />
+    <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modification">
+        <PropertyRef Name="id_mod" />
+      </Principal>
+      <Dependent Role="Processing">
+        <PropertyRef Name="fk_id_mod" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AutoDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AutoGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AutoMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AutoModification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AutoPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AutoProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="rows" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_g" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_m" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_m" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeletePart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_p" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Everything" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="FirstDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="InsertDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_m" Type="int" Mode="In" />
+    <Parameter Name="id_p" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="firm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guild" Type="int" Mode="In" />
+    <Parameter Name="Firm" Type="varchar" Mode="In" />
+    <Parameter Name="Time" Type="float" Mode="In" />
+  </Function>
+  <Function Name="InsertMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="labour" Type="float" Mode="In" />
+  </Function>
+  <Function Name="InsertPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="firm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_p" Type="int" Mode="In" />
+    <Parameter Name="id_m" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Request2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_g" Type="int" Mode="In" />
+    <Parameter Name="letter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SecondDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_g" Type="int" Mode="In" />
+    <Parameter Name="letter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="ShowDrafts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ShowGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ShowMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ShowMods" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ShowPart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="ShowProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="UpdateDraft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="id_p" Type="int" Mode="In" />
+    <Parameter Name="id_m" Type="int" Mode="In" />
+    <Parameter Name="v" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateGuild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="firm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="time" Type="float" Mode="In" />
+    <Parameter Name="firm" Type="varchar" Mode="In" />
+    <Parameter Name="id_g" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateMod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="labour" Type="float" Mode="In" />
+  </Function>
+  <Function Name="UpdatePart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="name" Type="varchar" Mode="In" />
+    <Parameter Name="firm" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+    <Parameter Name="id_p" Type="int" Mode="In" />
+    <Parameter Name="id_m" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="Хранилище GuildsModelContainer">
+    <EntitySet Name="Draft" EntityType="Self.Draft" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Guild" EntityType="Self.Guild" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Modification" EntityType="Self.Modification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Part" EntityType="Self.Part" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Processing" EntityType="Self.Processing" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Draft__fk_id_mac__31B762FC" Association="Self.FK__Draft__fk_id_mac__31B762FC">
+      <End Role="Machine" EntitySet="Machine" />
+      <End Role="Draft" EntitySet="Draft" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Draft__fk_id_par__30C33EC3" Association="Self.FK__Draft__fk_id_par__30C33EC3">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="Draft" EntitySet="Draft" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Machine__fk_id_g__29572725" Association="Self.FK__Machine__fk_id_g__29572725">
+      <End Role="Guild" EntitySet="Guild" />
+      <End Role="Machine" EntitySet="Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Processin__fk_id__29221CFB" Association="Self.FK__Processin__fk_id__29221CFB">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="Processing" EntitySet="Processing" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Processin__fk_id__2A164134" Association="Self.FK__Processin__fk_id__2A164134">
+      <End Role="Modification" EntitySet="Modification" />
+      <End Role="Processing" EntitySet="Processing" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

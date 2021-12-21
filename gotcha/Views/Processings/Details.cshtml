@@ -1,0 +1,35 @@
+﻿@model gotcha.Models.Processing
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Processing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            id of modification
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modification.id_mod)
+        </dd>
+
+        <dt>
+            id of part
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Part.id_part)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_row }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

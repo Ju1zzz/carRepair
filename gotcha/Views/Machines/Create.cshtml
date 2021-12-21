@@ -1,0 +1,57 @@
+﻿@model gotcha.Models.Machine
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Machine</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+           <h5>id of guild</h5>
+           <div class="col-md-10">
+               @Html.EditorFor(model => model.fk_id_guild, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(model => model.fk_id_guild, "", new { @class = "text-danger" })
+           </div>
+        </div>
+
+        <div class="form-group">
+            <h5>firm</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.firmMach, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.firmMach, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h5>time of processing</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.timeProcessing, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.timeProcessing, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

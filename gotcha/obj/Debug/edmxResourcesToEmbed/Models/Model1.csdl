@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GuildsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Draft">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fk_id_part" Type="Int32" Nullable="false" />
+    <Property Name="fk_id_mach" Type="Int32" Nullable="false" />
+    <Property Name="version" Type="Int32" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK__Draft__fk_id_mac__31B762FC" FromRole="Draft" ToRole="Machine" />
+    <NavigationProperty Name="Part" Relationship="Self.FK__Draft__fk_id_par__30C33EC3" FromRole="Draft" ToRole="Part" />
+  </EntityType>
+  <EntityType Name="Guild">
+    <Key>
+      <PropertyRef Name="id_guild" />
+    </Key>
+    <Property Name="id_guild" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameGuild" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="firmGuild" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Machine" Relationship="Self.FK__Machine__fk_id_g__29572725" FromRole="Guild" ToRole="Machine" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="id_mach" />
+    </Key>
+    <Property Name="id_mach" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fk_id_guild" Type="Int32" Nullable="false" />
+    <Property Name="firmMach" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="timeProcessing" Type="Double" />
+    <NavigationProperty Name="Draft" Relationship="Self.FK__Draft__fk_id_mac__31B762FC" FromRole="Machine" ToRole="Draft" />
+    <NavigationProperty Name="Guild" Relationship="Self.FK__Machine__fk_id_g__29572725" FromRole="Machine" ToRole="Guild" />
+  </EntityType>
+  <EntityType Name="Modification">
+    <Key>
+      <PropertyRef Name="id_mod" />
+    </Key>
+    <Property Name="id_mod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameMod" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LabourInput" Type="Double" />
+    <NavigationProperty Name="Processing" Relationship="Self.FK__Processin__fk_id__2A164134" FromRole="Modification" ToRole="Processing" />
+  </EntityType>
+  <EntityType Name="Part">
+    <Key>
+      <PropertyRef Name="id_part" />
+    </Key>
+    <Property Name="id_part" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="namePart" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="firmPart" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Draft" Relationship="Self.FK__Draft__fk_id_par__30C33EC3" FromRole="Part" ToRole="Draft" />
+    <NavigationProperty Name="Processing" Relationship="Self.FK__Processin__fk_id__29221CFB" FromRole="Part" ToRole="Processing" />
+  </EntityType>
+  <EntityType Name="Processing">
+    <Key>
+      <PropertyRef Name="id_row" />
+    </Key>
+    <Property Name="id_row" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fk_id_part" Type="Int32" Nullable="false" />
+    <Property Name="fk_id_mod" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Modification" Relationship="Self.FK__Processin__fk_id__2A164134" FromRole="Processing" ToRole="Modification" />
+    <NavigationProperty Name="Part" Relationship="Self.FK__Processin__fk_id__29221CFB" FromRole="Processing" ToRole="Part" />
+  </EntityType>
+  <Association Name="FK__Draft__fk_id_mac__31B762FC">
+    <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+    <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machine">
+        <PropertyRef Name="id_mach" />
+      </Principal>
+      <Dependent Role="Draft">
+        <PropertyRef Name="fk_id_mach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Draft__fk_id_par__30C33EC3">
+    <End Role="Part" Type="Self.Part" Multiplicity="1" />
+    <End Role="Draft" Type="Self.Draft" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="id_part" />
+      </Principal>
+      <Dependent Role="Draft">
+        <PropertyRef Name="fk_id_part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Machine__fk_id_g__29572725">
+    <End Role="Guild" Type="Self.Guild" Multiplicity="1" />
+    <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guild">
+        <PropertyRef Name="id_guild" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="fk_id_guild" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Processin__fk_id__2A164134">
+    <End Role="Modification" Type="Self.Modification" Multiplicity="1" />
+    <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modification">
+        <PropertyRef Name="id_mod" />
+      </Principal>
+      <Dependent Role="Processing">
+        <PropertyRef Name="fk_id_mod" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Processin__fk_id__29221CFB">
+    <End Role="Part" Type="Self.Part" Multiplicity="1" />
+    <End Role="Processing" Type="Self.Processing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Part">
+        <PropertyRef Name="id_part" />
+      </Principal>
+      <Dependent Role="Processing">
+        <PropertyRef Name="fk_id_part" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GuildsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Draft" EntityType="Self.Draft" />
+    <EntitySet Name="Guild" EntityType="Self.Guild" />
+    <EntitySet Name="Machine" EntityType="Self.Machine" />
+    <EntitySet Name="Modification" EntityType="Self.Modification" />
+    <EntitySet Name="Part" EntityType="Self.Part" />
+    <EntitySet Name="Processing" EntityType="Self.Processing" />
+    <AssociationSet Name="FK__Draft__fk_id_mac__31B762FC" Association="Self.FK__Draft__fk_id_mac__31B762FC">
+      <End Role="Machine" EntitySet="Machine" />
+      <End Role="Draft" EntitySet="Draft" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Draft__fk_id_par__30C33EC3" Association="Self.FK__Draft__fk_id_par__30C33EC3">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="Draft" EntitySet="Draft" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Machine__fk_id_g__29572725" Association="Self.FK__Machine__fk_id_g__29572725">
+      <End Role="Guild" EntitySet="Guild" />
+      <End Role="Machine" EntitySet="Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Processin__fk_id__2A164134" Association="Self.FK__Processin__fk_id__2A164134">
+      <End Role="Modification" EntitySet="Modification" />
+      <End Role="Processing" EntitySet="Processing" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Processin__fk_id__29221CFB" Association="Self.FK__Processin__fk_id__29221CFB">
+      <End Role="Part" EntitySet="Part" />
+      <End Role="Processing" EntitySet="Processing" />
+    </AssociationSet>
+    <FunctionImport Name="AutoDraft">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AutoGuild">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AutoMachine">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AutoModification">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AutoPart">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AutoProcessing">
+      <Parameter Name="rows" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDraft">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteGuild">
+      <Parameter Name="id_g" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteMachine">
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteMod">
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeletePart">
+      <Parameter Name="id_p" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteProcessing">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Everything" ReturnType="Collection(GuildsModel.Everything_Result)" />
+    <FunctionImport Name="FirstDoc" ReturnType="Collection(GuildsModel.FirstDoc_Result)" />
+    <FunctionImport Name="InsertDraft">
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+      <Parameter Name="id_p" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertGuild">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="firm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertMachine">
+      <Parameter Name="Guild" Mode="In" Type="Int32" />
+      <Parameter Name="Firm" Mode="In" Type="String" />
+      <Parameter Name="Time" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="InsertMod">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="labour" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="InsertPart">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="firm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertProcessing">
+      <Parameter Name="id_p" Mode="In" Type="Int32" />
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Request2" ReturnType="Collection(String)">
+      <Parameter Name="id_g" Mode="In" Type="Int32" />
+      <Parameter Name="letter" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SecondDoc" ReturnType="Collection(GuildsModel.SecondDoc_Result)">
+      <Parameter Name="id_g" Mode="In" Type="Int32" />
+      <Parameter Name="letter" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ShowDrafts" ReturnType="Collection(GuildsModel.ShowDrafts_Result)" />
+    <FunctionImport Name="ShowGuild" ReturnType="Collection(GuildsModel.ShowGuild_Result)" />
+    <FunctionImport Name="ShowMachine" ReturnType="Collection(GuildsModel.ShowMachine_Result)" />
+    <FunctionImport Name="ShowMods" ReturnType="Collection(GuildsModel.ShowMods_Result)" />
+    <FunctionImport Name="ShowPart" ReturnType="Collection(GuildsModel.ShowPart_Result)" />
+    <FunctionImport Name="ShowProcessing" ReturnType="Collection(GuildsModel.ShowProcessing_Result)" />
+    <FunctionImport Name="UpdateDraft">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="id_p" Mode="In" Type="Int32" />
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+      <Parameter Name="v" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateGuild">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="firm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateMachine">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="time" Mode="In" Type="Double" />
+      <Parameter Name="firm" Mode="In" Type="String" />
+      <Parameter Name="id_g" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateMod">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="labour" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="UpdatePart">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="firm" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateProcessing">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="id_p" Mode="In" Type="Int32" />
+      <Parameter Name="id_m" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="Everything_Result">
+    <Property Type="Int32" Name="id_mod" Nullable="false" />
+    <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="fk_id_mach" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_guild" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="FirstDoc_Result">
+    <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+    <Property Type="Double" Name="LabourInput" Nullable="true" />
+    <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+  </ComplexType>
+  <ComplexType Name="SecondDoc_Result">
+    <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+    <Property Type="Double" Name="timeProcessing" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ShowDrafts_Result">
+    <Property Type="Int32" Name="id_row" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_part" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_mach" Nullable="false" />
+    <Property Type="Int32" Name="version" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ShowGuild_Result">
+    <Property Type="Int32" Name="id_guild" Nullable="false" />
+    <Property Type="String" Name="nameGuild" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="firmGuild" Nullable="true" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="ShowMachine_Result">
+    <Property Type="Int32" Name="id_mach" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_guild" Nullable="false" />
+    <Property Type="String" Name="firmMach" Nullable="true" MaxLength="40" />
+    <Property Type="Double" Name="timeProcessing" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ShowMods_Result">
+    <Property Type="Int32" Name="id_mod" Nullable="false" />
+    <Property Type="String" Name="nameMod" Nullable="true" MaxLength="30" />
+    <Property Type="Double" Name="LabourInput" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ShowPart_Result">
+    <Property Type="Int32" Name="id_part" Nullable="false" />
+    <Property Type="String" Name="namePart" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="firmPart" Nullable="true" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="ShowProcessing_Result">
+    <Property Type="Int32" Name="id_row" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_part" Nullable="false" />
+    <Property Type="Int32" Name="fk_id_mod" Nullable="false" />
+  </ComplexType>
+</Schema>

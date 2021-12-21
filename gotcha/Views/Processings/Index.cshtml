@@ -1,0 +1,91 @@
+﻿@model IEnumerable<gotcha.Models.Processing>
+@using gotcha.Models;
+@{
+    ViewBag.Title = "Processing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h2 class="mt-4">Processing list</h2>
+<a class="btn btn-outline-primary mt-3" href="Processings/Create">Add new processing</a>
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination pg-red justify-content-end">
+
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="?pg=@pge"> @pge </a>
+                </li>
+            }
+
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li>
+                    <a class="page-link" href="?pg=@(pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+<table class="table mt-3">
+    <tr>
+        <th>
+            id of modification
+        </th>
+        <th>
+            name of modification
+        </th>
+        <th>
+            id of part
+        </th>
+        <th>
+            name of part
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.fk_id_mod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Modification.nameMod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.fk_id_part)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Part.namePart)
+    </td>
+    <td style="text-align: right">
+        @{var id = item.id_row;}
+        <a class="btn btn-outline-secondary" href="Processings/Edit/@id">Edit</a>
+        <a class="btn btn-outline-info" href="Processings/Details/@id">Info</a>
+        <a class="btn btn-outline-danger" href="Processings/Delete/@id">Delete</a>
+    </td>
+</tr>
+    }
+</table>

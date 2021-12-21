@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище GuildsModelContainer" CdmEntityContainer="GuildsEntities">
+    <EntitySetMapping Name="Draft">
+      <EntityTypeMapping TypeName="GuildsModel.Draft">
+        <MappingFragment StoreEntitySet="Draft">
+          <ScalarProperty Name="id_row" ColumnName="id_row" />
+          <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+          <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+          <ScalarProperty Name="version" ColumnName="version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Draft">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertDraft">
+            <ScalarProperty Name="fk_id_part" ParameterName="id_p" />
+            <ScalarProperty Name="fk_id_mach" ParameterName="id_m" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateDraft">
+            <ScalarProperty Name="version" ParameterName="v" Version="Current" />
+            <ScalarProperty Name="fk_id_mach" ParameterName="id_m" Version="Current" />
+            <ScalarProperty Name="fk_id_part" ParameterName="id_p" Version="Current" />
+            <ScalarProperty Name="id_row" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteDraft">
+            <ScalarProperty Name="id_row" ParameterName="id" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Guild">
+      <EntityTypeMapping TypeName="GuildsModel.Guild">
+        <MappingFragment StoreEntitySet="Guild">
+          <ScalarProperty Name="id_guild" ColumnName="id_guild" />
+          <ScalarProperty Name="nameGuild" ColumnName="nameGuild" />
+          <ScalarProperty Name="firmGuild" ColumnName="firmGuild" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Guild">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertGuild">
+            <ScalarProperty Name="firmGuild" ParameterName="firm" />
+            <ScalarProperty Name="nameGuild" ParameterName="name" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateGuild">
+            <ScalarProperty Name="firmGuild" ParameterName="firm" Version="Current" />
+            <ScalarProperty Name="nameGuild" ParameterName="name" Version="Current" />
+            <ScalarProperty Name="id_guild" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteGuild">
+            <ScalarProperty Name="id_guild" ParameterName="id_g" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Machine">
+      <EntityTypeMapping TypeName="GuildsModel.Machine">
+        <MappingFragment StoreEntitySet="Machine">
+          <ScalarProperty Name="id_mach" ColumnName="id_mach" />
+          <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+          <ScalarProperty Name="firmMach" ColumnName="firmMach" />
+          <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Machine">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertMachine">
+            <ScalarProperty Name="timeProcessing" ParameterName="Time" />
+            <ScalarProperty Name="firmMach" ParameterName="Firm" />
+            <ScalarProperty Name="fk_id_guild" ParameterName="Guild" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateMachine">
+            <ScalarProperty Name="fk_id_guild" ParameterName="id_g" Version="Current" />
+            <ScalarProperty Name="firmMach" ParameterName="firm" Version="Current" />
+            <ScalarProperty Name="timeProcessing" ParameterName="time" Version="Current" />
+            <ScalarProperty Name="id_mach" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteMachine">
+            <ScalarProperty Name="id_mach" ParameterName="id_m" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modification">
+      <EntityTypeMapping TypeName="GuildsModel.Modification">
+        <MappingFragment StoreEntitySet="Modification">
+          <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+          <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+          <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Modification">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertMod">
+            <ScalarProperty Name="LabourInput" ParameterName="labour" />
+            <ScalarProperty Name="nameMod" ParameterName="name" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateMod">
+            <ScalarProperty Name="LabourInput" ParameterName="labour" Version="Current" />
+            <ScalarProperty Name="nameMod" ParameterName="name" Version="Current" />
+            <ScalarProperty Name="id_mod" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteMod">
+            <ScalarProperty Name="id_mod" ParameterName="id_m" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Part">
+      <EntityTypeMapping TypeName="GuildsModel.Part">
+        <MappingFragment StoreEntitySet="Part">
+          <ScalarProperty Name="id_part" ColumnName="id_part" />
+          <ScalarProperty Name="namePart" ColumnName="namePart" />
+          <ScalarProperty Name="firmPart" ColumnName="firmPart" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Part">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertPart">
+            <ScalarProperty Name="firmPart" ParameterName="firm" />
+            <ScalarProperty Name="namePart" ParameterName="name" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdatePart">
+            <ScalarProperty Name="firmPart" ParameterName="firm" Version="Current" />
+            <ScalarProperty Name="namePart" ParameterName="name" Version="Current" />
+            <ScalarProperty Name="id_part" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeletePart">
+            <ScalarProperty Name="id_part" ParameterName="id_p" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Processing">
+      <EntityTypeMapping TypeName="GuildsModel.Processing">
+        <MappingFragment StoreEntitySet="Processing">
+          <ScalarProperty Name="id_row" ColumnName="id_row" />
+          <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+          <ScalarProperty Name="fk_id_mod" ColumnName="fk_id_mod" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="GuildsModel.Processing">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Хранилище GuildsModel.InsertProcessing">
+            <ScalarProperty Name="fk_id_mod" ParameterName="id_m" />
+            <ScalarProperty Name="fk_id_part" ParameterName="id_p" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Хранилище GuildsModel.UpdateProcessing">
+            <ScalarProperty Name="fk_id_mod" ParameterName="id_m" Version="Current" />
+            <ScalarProperty Name="fk_id_part" ParameterName="id_p" Version="Current" />
+            <ScalarProperty Name="id_row" ParameterName="id" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Хранилище GuildsModel.DeleteProcessing">
+            <ScalarProperty Name="id_row" ParameterName="id" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AutoDraft" FunctionName="Хранилище GuildsModel.AutoDraft" />
+    <FunctionImportMapping FunctionImportName="AutoGuild" FunctionName="Хранилище GuildsModel.AutoGuild" />
+    <FunctionImportMapping FunctionImportName="AutoMachine" FunctionName="Хранилище GuildsModel.AutoMachine" />
+    <FunctionImportMapping FunctionImportName="AutoModification" FunctionName="Хранилище GuildsModel.AutoModification" />
+    <FunctionImportMapping FunctionImportName="AutoPart" FunctionName="Хранилище GuildsModel.AutoPart" />
+    <FunctionImportMapping FunctionImportName="AutoProcessing" FunctionName="Хранилище GuildsModel.AutoProcessing" />
+    <FunctionImportMapping FunctionImportName="DeleteDraft" FunctionName="Хранилище GuildsModel.DeleteDraft" />
+    <FunctionImportMapping FunctionImportName="DeleteGuild" FunctionName="Хранилище GuildsModel.DeleteGuild" />
+    <FunctionImportMapping FunctionImportName="DeleteMachine" FunctionName="Хранилище GuildsModel.DeleteMachine" />
+    <FunctionImportMapping FunctionImportName="DeleteMod" FunctionName="Хранилище GuildsModel.DeleteMod" />
+    <FunctionImportMapping FunctionImportName="DeletePart" FunctionName="Хранилище GuildsModel.DeletePart" />
+    <FunctionImportMapping FunctionImportName="DeleteProcessing" FunctionName="Хранилище GuildsModel.DeleteProcessing" />
+    <FunctionImportMapping FunctionImportName="Everything" FunctionName="Хранилище GuildsModel.Everything">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.Everything_Result">
+          <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+          <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+          <ScalarProperty Name="namePart" ColumnName="namePart" />
+          <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+          <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="FirstDoc" FunctionName="Хранилище GuildsModel.FirstDoc">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.FirstDoc_Result">
+          <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+          <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+          <ScalarProperty Name="namePart" ColumnName="namePart" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertDraft" FunctionName="Хранилище GuildsModel.InsertDraft" />
+    <FunctionImportMapping FunctionImportName="InsertGuild" FunctionName="Хранилище GuildsModel.InsertGuild" />
+    <FunctionImportMapping FunctionImportName="InsertMachine" FunctionName="Хранилище GuildsModel.InsertMachine" />
+    <FunctionImportMapping FunctionImportName="InsertMod" FunctionName="Хранилище GuildsModel.InsertMod" />
+    <FunctionImportMapping FunctionImportName="InsertPart" FunctionName="Хранилище GuildsModel.InsertPart" />
+    <FunctionImportMapping FunctionImportName="InsertProcessing" FunctionName="Хранилище GuildsModel.InsertProcessing" />
+    <FunctionImportMapping FunctionImportName="Request2" FunctionName="Хранилище GuildsModel.Request2" />
+    <FunctionImportMapping FunctionImportName="SecondDoc" FunctionName="Хранилище GuildsModel.SecondDoc">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.SecondDoc_Result">
+          <ScalarProperty Name="namePart" ColumnName="namePart" />
+          <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowDrafts" FunctionName="Хранилище GuildsModel.ShowDrafts">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowDrafts_Result">
+          <ScalarProperty Name="id_row" ColumnName="id_row" />
+          <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+          <ScalarProperty Name="fk_id_mach" ColumnName="fk_id_mach" />
+          <ScalarProperty Name="version" ColumnName="version" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowGuild" FunctionName="Хранилище GuildsModel.ShowGuild">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowGuild_Result">
+          <ScalarProperty Name="id_guild" ColumnName="id_guild" />
+          <ScalarProperty Name="nameGuild" ColumnName="nameGuild" />
+          <ScalarProperty Name="firmGuild" ColumnName="firmGuild" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowMachine" FunctionName="Хранилище GuildsModel.ShowMachine">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowMachine_Result">
+          <ScalarProperty Name="id_mach" ColumnName="id_mach" />
+          <ScalarProperty Name="fk_id_guild" ColumnName="fk_id_guild" />
+          <ScalarProperty Name="firmMach" ColumnName="firmMach" />
+          <ScalarProperty Name="timeProcessing" ColumnName="timeProcessing" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowMods" FunctionName="Хранилище GuildsModel.ShowMods">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowMods_Result">
+          <ScalarProperty Name="id_mod" ColumnName="id_mod" />
+          <ScalarProperty Name="nameMod" ColumnName="nameMod" />
+          <ScalarProperty Name="LabourInput" ColumnName="LabourInput" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowPart" FunctionName="Хранилище GuildsModel.ShowPart">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowPart_Result">
+          <ScalarProperty Name="id_part" ColumnName="id_part" />
+          <ScalarProperty Name="namePart" ColumnName="namePart" />
+          <ScalarProperty Name="firmPart" ColumnName="firmPart" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ShowProcessing" FunctionName="Хранилище GuildsModel.ShowProcessing">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="GuildsModel.ShowProcessing_Result">
+          <ScalarProperty Name="id_row" ColumnName="id_row" />
+          <ScalarProperty Name="fk_id_part" ColumnName="fk_id_part" />
+          <ScalarProperty Name="fk_id_mod" ColumnName="fk_id_mod" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateDraft" FunctionName="Хранилище GuildsModel.UpdateDraft" />
+    <FunctionImportMapping FunctionImportName="UpdateGuild" FunctionName="Хранилище GuildsModel.UpdateGuild" />
+    <FunctionImportMapping FunctionImportName="UpdateMachine" FunctionName="Хранилище GuildsModel.UpdateMachine" />
+    <FunctionImportMapping FunctionImportName="UpdateMod" FunctionName="Хранилище GuildsModel.UpdateMod" />
+    <FunctionImportMapping FunctionImportName="UpdatePart" FunctionName="Хранилище GuildsModel.UpdatePart" />
+    <FunctionImportMapping FunctionImportName="UpdateProcessing" FunctionName="Хранилище GuildsModel.UpdateProcessing" />
+  </EntityContainerMapping>
+</Mapping>

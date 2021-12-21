@@ -1,0 +1,93 @@
+﻿@model IEnumerable<gotcha.Models.Machine>
+@using gotcha.Models;
+@{
+    ViewBag.Title = "Machines";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h2 class="mt-4">Machine list</h2>
+<a class="btn btn-outline-primary mt-3" href="Machines/Create">Add new machine</a>
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=1">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="?pg=@pge"> @pge </a>
+                </li>
+            }
+
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pg=@(pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li>
+                    <a class="page-link" href="?pg=@(pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+<table class="table mt-3">
+    <tr>
+        <th>
+    Id of machine
+        </th>
+        <th>
+            Id of guild
+        </th>
+        
+        <th>
+            Firm
+        </th>
+        <th>
+            Time of processing
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.id_mach)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.fk_id_guild)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.firmMach)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.timeProcessing)
+    </td>
+    <td style="text-align: right">
+        @{var id = item.id_mach;}
+        <a class="btn btn-outline-secondary" href="Machines/Edit/@id">Edit</a>
+        <a class="btn btn-outline-info" href="Machines/Details/@id">Info</a>
+        <a class="btn btn-outline-danger" href="Machines/Delete/@id">Delete</a>
+    </td>
+</tr>
+    }
+</table>

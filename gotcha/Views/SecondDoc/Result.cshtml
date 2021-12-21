@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<gotcha.Models.SecondDoc_Result>
+
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Result", "SecondDoc", FormMethod.Get))
+{
+
+    <div class="form-group mt-3">
+        <div class="col-4">
+            @Html.TextBox("id_g", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "id of guild" })
+        </div>
+        <div class="col-4">
+            @Html.TextBox("letter", ViewBag.CurrentFilter1 as string, new { @class = "form-control", @placeholder = "letter" })
+        </div>
+    </div>
+    <div class="col-md-offset-2 col-4 mt-3">
+        <button type="submit" class="btn btn-outline-primary">Find</button>
+    </div>
+}
+
+
+
+@if (!TempData["msg"].Equals(""))
+{
+    <div class="alert alert-danger text-center" role="alert">
+        <h1>Nothing found</h1>
+    </div>
+}
+
+@if (TempData["msg"].Equals(""))
+{
+
+    <table class="table">
+        <tr>
+            <th>
+                name of part
+            </th>
+            <th>
+                time of processing
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.namePart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.timeProcessing)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    <p>Page @(Model.PageCount< Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
+    <hr />
+    @Html.PagedListPager(Model, pg => Url.Action("Result",
+    new { pg, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, currentFilter1 = ViewBag.CurrentFilter1 }))
+}

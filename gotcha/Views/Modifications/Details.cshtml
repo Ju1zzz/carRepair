@@ -1,0 +1,35 @@
+﻿@model gotcha.Models.Modification
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Modification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            name of modification
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nameMod)
+        </dd>
+
+        <dt>
+            labour input
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LabourInput)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_mod }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
